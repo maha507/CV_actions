@@ -32,22 +32,8 @@
 		  { dataField: "mobile", caption: "Mobile", width: 150 },
 		  {
 			caption: "Actions",
-			width: 200,
-			cellTemplate: function (container, options) {
-			  const editButton = document.createElement("button");
-			  editButton.innerText = "Edit";
-			  editButton.classList.add("btn", "btn-primary", "mr-2");
-			  editButton.addEventListener("click", function () {
-				dataGrid.editRow(options.rowIndex);
-			  });
-  
-			  const deleteButton = document.createElement("button");
-			  deleteButton.innerText = "Delete";
-			  deleteButton.classList.add("btn", "btn-danger");
-			  deleteButton.addEventListener("click", function () {
-				dataGrid.deleteRow(options.rowIndex);
-			  });
-  
+			width: 400,
+			cellTemplate: function (container, options) {  
 			  const cvUploadButton = document.createElement("button");
 			  cvUploadButton.innerText = "CV Upload";
 			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
