@@ -2,22 +2,23 @@
 	import { onMount, createEventDispatcher } from "svelte";
 	import "bootstrap/dist/css/bootstrap.min.css";
 	import DevExpress from "devextreme";
-	
+  
 	let jsonData = [];
 	let gridData = [];
 	let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
 	let isCVViewPopupVisible = false;
+  
 	async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
-	
+  
 	  // Example: Update the backend API URL with the file upload
 	  const formData = new FormData();
 	  formData.append("file", file);
-	
+  
 	  if (selectedRowData) {
 		const uploadCandidateId = selectedRowData.id; // Get the candidate ID from selectedRowData
-	
+  
 		try {
 		  const response = await fetch(
 			`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
@@ -26,7 +27,7 @@
 			  body: formData,
 			}
 		  );
-	
+  
 		  if (response.ok) {
 			console.log("CV uploaded successfully!");
 			// Perform any additional actions upon successful upload
@@ -39,96 +40,96 @@
 		  // Handle the error accordingly
 		}
 	  }
-	
+  
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-	
-	async function downloadCV(file, fileName) {
-  try {
-    const response = await fetch(file);
-
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-      link.click();
-      alert("CV downloaded successfully!");
-    } else {
-      console.error("CV download failed.");
-      // Handle the error accordingly
-    }
-  } catch (error) {
-    console.error("CV download error:", error);
-    // Handle the error accordingly
-  }
-}
-
-
+  
+	async function downloadCV(cvUrl, fileName) {
+	  try {
+		const response = await fetch(cvUrl);
+  
+		if (response.ok) {
+		  const blob = await response.blob();
+		  const url = URL.createObjectURL(blob);
+		  const link = document.createElement("a");
+		  link.href = url;
+		  link.download = fileName;
+		  link.click();
+		  alert("CV downloaded successfully!");
+		} else {
+		  console.error("CV download failed.");
+		  // Handle the error accordingly
+		}
+	  } catch (error) {
+		console.error("CV download error:", error);
+		// Handle the error accordingly
+	  }
+	}
+  
 	async function viewCV(cvUrl) {
-  try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-
-    if (response.ok) {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const cvData = await response.json();
-        console.log("CV data:", cvData);
-        // Perform further actions with the CV data
-      } else {
-        console.error("CV view failed. Invalid response format.");
-        // Handle the error accordingly
-      }
-    } else {
-      console.error("CV view failed. Status:", response.status);
-      // Handle the error accordingly
-    }
-  } catch (error) {
-    console.error("CV view error:", error);
-    // Handle the error accordingly
-  }
-}
-
-function openCVViewPopup(cvUrl) {
-  // Perform any necessary actions before opening the popup
-
-  // Set the visibility of the CV view popup to true
-  isCVViewPopupVisible = true;
-
-  // Fetch the CV data and perform further actions
-  viewCV(cvUrl);
-}
-
+	  try {
+		const response = await fetch(
+		  `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+		);
+  
+		if (response.ok) {
+		  const contentType = response.headers.get("content-type");
+		  if (contentType && contentType.includes("application/json")) {
+			const cvData = await response.json();
+			console.log("CV data:", cvData);
+			// Perform further actions with the CV data
+		  } else {
+			console.error("CV view failed. Invalid response format.");
+			// Handle the error accordingly
+		  }
+		} else {
+		  console.error("CV view failed. Status:", response.status);
+		  // Handle the error accordingly
+		}
+	  } catch (error) {
+		console.error("CV view error:", error);
+		// Handle the error accordingly
+	  }
+	}
+  
+	function openCVViewPopup(cvUrl) {
+	  // Perform any necessary actions before opening the popup
+  
+	  // Set the visibility of the CV view popup to true
+	  isCVViewPopupVisible = true;
+  
+	  // Fetch the CV data and perform further actions
+	  viewCV(cvUrl);
+	}
+  
 	function handleSave() {
 	  // Perform save logic
 	  // In this case, we're updating the backend API URL in the handleSave function
 	  console.log("Save clicked");
-	
+  
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-	
+  
 	function handleClose() {
 	  // Perform close logic
 	  console.log("Close clicked");
-	
-	  // Close the CV upload popup
+  
+	  // Close the CV upload popup or CV view popup
 	  isCVUploadPopupVisible = false;
+	  isCVViewPopupVisible = false;
 	}
-	
+  
 	const dispatch = createEventDispatcher();
-	
+  
 	onMount(async () => {
 	  const response = await fetch(
 		"https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
 	  );
 	  const responseData = await response.json();
 	  jsonData = responseData.data;
-	
+  
 	  gridData = jsonData.map((item) => ({
 		id: item.id,
 		firstName: item.firstName,
@@ -137,7 +138,7 @@ function openCVViewPopup(cvUrl) {
 		mobile: item.mobile,
 		cvUrl: item.cvUrl, // assuming cvUrl is the property containing the CV file URL
 	  }));
-	
+  
 	  const dataGrid = new DevExpress.ui.dxDataGrid(
 		document.getElementById("dataGrid"),
 		{
@@ -160,17 +161,17 @@ function openCVViewPopup(cvUrl) {
 				  selectedRowData = rowData;
 				  isCVUploadPopupVisible = true;
 				});
-	
+  
 				const cvDownloadButton = document.createElement("button");
 				cvDownloadButton.innerText = "CV Download";
 				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
 				cvDownloadButton.addEventListener("click", function () {
-  				const rowData = options.data;
-  				const cvUrl = rowData.file; // Assuming cvUrl is the property containing the CV file URL
-  				const fileName = `CV_${rowData.id}`; // Customize the file name as desired
-  				downloadCV(file, fileName);
+				  const rowData = options.data;
+				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+				  const fileName = `CV_${rowData.id}`; // Customize the file name as desired
+				  downloadCV(cvUrl, fileName);
 				});
-
+  
 				const viewCVButton = document.createElement("button");
 				viewCVButton.innerText = "View CV";
 				viewCVButton.classList.add("btn", "btn-secondary");
@@ -181,7 +182,7 @@ function openCVViewPopup(cvUrl) {
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
 				});
-	
+  
 				container.appendChild(cvUploadButton);
 				container.appendChild(cvDownloadButton);
 				container.appendChild(viewCVButton);
@@ -252,14 +253,14 @@ function openCVViewPopup(cvUrl) {
   {#if isCVViewPopupVisible}
   <!-- CV View Popup -->
   <div class="popup-overlay">
-    <div class="popup-content">
-      <h3>View CV</h3>
-      <!-- Display the CV content here -->
-      <p>CV content goes here...</p>
-      <button on:click={handleClose} class="btn btn-secondary">Close</button>
-    </div>
+	<div class="popup-content">
+	  <h3>View CV</h3>
+	  <!-- Display the CV content here -->
+	  <p>CV content goes here...</p>
+	  <button on:click={handleClose} class="btn btn-secondary">Close</button>
+	</div>
   </div>
-{/if}
+  {/if}
   <style>
   .popup-overlay {
 	position: fixed;
