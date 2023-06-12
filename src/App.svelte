@@ -277,7 +277,7 @@
 	<div class="popup-content">
 	  <h3>View CV</h3>
 	  <!-- Display the CV content here -->
-	  <p>CV content goes here...</p>
+	  <p>CV content</p>
 	  <button on:click={handleClose} class="btn btn-secondary">close</button>
 	</div>
   </div>
