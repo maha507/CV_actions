@@ -77,24 +77,6 @@
     // Handle the error accordingly
   }
 }
-
-
-  
-async function viewCV(cvUrl) {
-  console.log("cvUrl:", cvUrl); // Debug statement
-
-  try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-    );
-
-    // Rest of the function code...
-  } catch (error) {
-    console.error("CV view error:", error);
-    // Handle the error accordingly
-  }
-}
-
   
 async function viewCV(cvUrl) {
   try {
