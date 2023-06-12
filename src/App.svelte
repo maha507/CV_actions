@@ -44,36 +44,30 @@
 	  isCVUploadPopupVisible = false;
 	}
 	
-	async function downloadCV(cvUrl) {
-	  try {
-		const response = await fetch(
-		  `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvUrl}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
-		);
-	
-		if (response.ok) {
-		  // Extract the file name from the response headers
-		  const contentDisposition = response.headers.get("content-disposition");
-		  const fileName = contentDisposition
-			? contentDisposition.split("filename=")[1]
-			: "CV_File";
-	
-		  // Create a temporary download link and trigger the download
-		  const blob = await response.blob();
-		  const url = URL.createObjectURL(blob);
-		  const link = document.createElement("a");
-		  link.href = url;
-		  link.download = fileName;
-		  link.click();
-		  alert("CV downloaded successfully!");
-		} else {
-		  console.error("CV download failed.");
-		  // Handle the error accordingly
-		}
-	  } catch (error) {
-		console.error("CV download error:", error);
-		// Handle the error accordingly
-	  }
-	}
+	async function downloadCV(cvUrl, fileName) {
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvUrl}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+    );
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.click();
+      alert("CV downloaded successfully!");
+    } else {
+      console.error("CV download failed.");
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV download error:", error);
+    // Handle the error accordingly
+  }
+}
+
 	async function viewCV(cvUrl) {
   try {
     const response = await fetch(
@@ -172,11 +166,12 @@ function openCVViewPopup(cvUrl) {
 				cvDownloadButton.innerText = "CV Download";
 				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
 				cvDownloadButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-				  downloadCV(cvUrl);
+  				const rowData = options.data;
+  				const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+  				const fileName = `CV_${rowData.id}`; // Customize the file name as desired
+  				downloadCV(cvUrl, fileName);
 				});
-	
+
 				const viewCVButton = document.createElement("button");
 				viewCVButton.innerText = "View CV";
 				viewCVButton.classList.add("btn", "btn-secondary");
