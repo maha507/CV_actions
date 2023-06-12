@@ -120,6 +120,14 @@
 	  isCVUploadPopupVisible = false;
 	  isCVViewPopupVisible = false;
 	}
+	function handleclose() {
+	  // Perform close logic
+	  console.log("Close clicked");
+  
+	  // Close the CV upload popup or CV view popup
+	  
+	  isCVViewPopupVisible = false;
+	}
   
 	const dispatch = createEventDispatcher();
   
@@ -257,7 +265,7 @@
 	  <h3>View CV</h3>
 	  <!-- Display the CV content here -->
 	  <p>CV content goes here...</p>
-	  <button on:click={handleClose} class="btn btn-secondary">Close</button>
+	  <button on:click={handleClose} class="btn btn-secondary">close</button>
 	</div>
   </div>
   {/if}
