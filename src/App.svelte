@@ -7,7 +7,7 @@
 	let gridData = [];
 	let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
-	
+	let isCVViewPopupVisible = false;
 	async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
 	
@@ -92,6 +92,15 @@
     console.error("CV view error:", error);
     // Handle the error accordingly
   }
+}
+function openCVViewPopup(cvUrl) {
+  // Perform any necessary actions before opening the popup
+
+  // Set the visibility of the CV view popup to true
+  isCVViewPopupVisible = true;
+
+  // Fetch the CV data and perform further actions
+  viewCV(cvUrl);
 }
 
 	function handleSave() {
@@ -239,7 +248,17 @@
 	</div>
   </div>
   {/if}
-  
+  {#if isCVViewPopupVisible}
+  <!-- CV View Popup -->
+  <div class="popup-overlay">
+    <div class="popup-content">
+      <h3>View CV</h3>
+      <!-- Display the CV content here -->
+      <p>CV content goes here...</p>
+      <button on:click={handleClose} class="btn btn-secondary">Close</button>
+    </div>
+  </div>
+{/if}
   <style>
   .popup-overlay {
 	position: fixed;
