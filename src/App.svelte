@@ -44,28 +44,29 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-  
-	async function downloadCV(cvUrl, fileName) {
-	  try {
-		const response = await fetch(cvUrl);
-  
-		if (response.ok) {
-		  const blob = await response.blob();
-		  const url = URL.createObjectURL(blob);
-		  const link = document.createElement("a");
-		  link.href = url;
-		  link.download = fileName;
-		  link.click();
-		  alert("CV downloaded successfully!");
-		} else {
-		  console.error("CV download failed.");
-		  // Handle the error accordingly
-		}
-	  } catch (error) {
-		console.error("CV download error:", error);
-		// Handle the error accordingly
-	  }
-	}
+
+  async function downloadCV(cvUrl, fileName) {
+    try {
+      const response = await fetch(cvUrl);
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        alert("CV downloaded successfully!");
+      } else {
+        console.error("CV download failed.");
+        // Handle the error accordingly
+      }
+    } catch (error) {
+      console.error("CV download error:", error);
+      // Handle the error accordingly
+    }
+  }
+
   
 	async function viewCV(cvUrl) {
 	  try {
@@ -174,11 +175,12 @@
 				cvDownloadButton.innerText = "CV Download";
 				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
 				cvDownloadButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-				  const fileName = `CV_${rowData.id}`; // Customize the file name as desired
-				  downloadCV(cvUrl, fileName);
+  				const rowData = options.data;
+  				const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+  				const fileName = `CV_${rowData.id}.pdf`; // Customize the file name as desired, including the extension
+  				downloadCV(cvUrl, fileName);
 				});
+
   
 				const viewCVButton = document.createElement("button");
 				viewCVButton.innerText = "View CV";
