@@ -167,7 +167,7 @@
 		  columns: [
 			{ dataField: "id", caption: "ID", width: 50 },
 			{ dataField: "firstName", caption: "First Name", width: 200 },
-			{ dataField: "surname", caption: "Surname", width: 200 },
+			{ dataField: "surname", caption: "surname", width: 200 },
 			{ dataField: "email", caption: "Email", width: 200 },
 			{ dataField: "mobile", caption: "Mobile", width: 150 },
 			{
@@ -184,14 +184,13 @@
 				});
   
 				const cvDownloadButton = document.createElement("button");
-				cvDownloadButton.innerText = "CV Download";
-				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
-				cvDownloadButton.addEventListener("click", function () {
-  				const rowData = options.data;
-  				const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-  				const fileName = `CV_${rowData.id}.pdf`; // Customize the file name as desired, including the extension
-  				downloadCV(cvUrl, fileName);
-				});
+              	cvDownloadButton.innerText = "CV Download";
+              	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
+              	cvDownloadButton.addEventListener("click", function () {
+                const rowData = options.data;
+                const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+                downloadCV(cvUrl);
+              });
 
   
 				const viewCVButton = document.createElement("button");
