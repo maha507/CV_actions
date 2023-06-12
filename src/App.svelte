@@ -82,7 +82,7 @@
 	async function viewCV(cvId) {
 	  try {
 		const response = await fetch(
-		  `https://api.recruitly.io/api/candidatecv/${cvId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+		  `https://api.recruitly.io/api/candidatecv/${cvId}?apiKey=TEST75806A94933FCBBD47039125432D3679DA21`
 		);
   
 		if (response.ok) {
