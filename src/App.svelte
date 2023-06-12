@@ -9,36 +9,39 @@
 	let selectedRowData = null;
 
 	async function uploadCV(file) {
-		
     // Perform further actions with the uploaded file
 
     // Example: Update the backend API URL with the file upload
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch(`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`, {
-      method: "POST",
-      body: formData
-    })
-      .then(response => {
-        // Handle the response accordingly
-        if (response.ok) {
-          console.log("CV uploaded successfully!");
-        } else {
-          console.error("CV upload failed.");
+    // Assuming you have the candidate ID available in `selectedRowData`
+    const uploadCandidateId = selectedRowData.id;
+
+    try {
+      const response = await fetch(
+        `https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
+        {
+          method: "POST",
+          body: formData,
         }
-      })
-      .catch(error => {
-        console.error("CV upload error:", error);
-      });
-	  // Implement CV upload logic here
-	  // You can use the 'file' parameter to access the uploaded CV file
-	  // For example:
-	  console.log("Uploading CV:", file);
-  
-	  // Close the CV upload popup
-	  isCVUploadPopupVisible = false;
-	}
+      );
+
+      if (response.ok) {
+        console.log("CV uploaded successfully!");
+        // Perform any additional actions upon successful upload
+      } else {
+        console.error("CV upload failed.");
+        // Handle the error accordingly
+      }
+    } catch (error) {
+      console.error("CV upload error:", error);
+      // Handle the error accordingly
+    }
+
+    // Close the CV upload popup
+    isCVUploadPopupVisible = false;
+  }
   
 	function handleSave() {
 	  // Perform save logic
