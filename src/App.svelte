@@ -81,26 +81,14 @@
 
   
 async function viewCV(cvUrl) {
+  console.log("cvUrl:", cvUrl); // Debug statement
+
   try {
     const response = await fetch(
       `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
     );
 
-    if (response.ok) {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const cvData = await response.json();
-        console.log("CV data:", cvData);
-		console.log(cvUrl);
-        // Perform further actions with the CV data
-      } else {
-        console.error("CV view failed. Invalid response format.");
-        // Handle the error accordingly
-      }
-    } else {
-      console.error("CV view failed. Status:", response.status);
-      // Handle the error accordingly
-    }
+    // Rest of the function code...
   } catch (error) {
     console.error("CV view error:", error);
     // Handle the error accordingly
