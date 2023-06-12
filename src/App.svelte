@@ -78,34 +78,33 @@
   }
 }
 
+async function viewCV(cvId) {
+	
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/candidatecv/${cvId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
 
+    if (response.ok) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const cvData = await response.json();
+        console.log("CV data:", cvData);
+        // Perform further actions with the CV data
+      } else {
+        console.error("CV view failed. Invalid response format.");
+        // Handle the error accordingly
+      }
+    } else {
+      console.error("CV view failed. Status:", response.status);
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV view error:", error);
+    // Handle the error accordingly
+  }
+}
 
-  
-	async function viewCV(cvUrl) {
-	  try {
-		const response = await fetch(
-		  `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
-		);
-  
-		if (response.ok) {
-		  const contentType = response.headers.get("content-type");
-		  if (contentType && contentType.includes("application/json")) {
-			const cvData = await response.json();
-			console.log("CV data:", cvData);
-			// Perform further actions with the CV data
-		  } else {
-			console.error("CV view failed. Invalid response format.");
-			// Handle the error accordingly
-		  }
-		} else {
-		  console.error("CV view failed. Status:", response.status);
-		  // Handle the error accordingly
-		}
-	  } catch (error) {
-		console.error("CV view error:", error);
-		// Handle the error accordingly
-	  }
-	}
   
 	function openCVViewPopup(cvUrl) {
 	  // Perform any necessary actions before opening the popup
@@ -189,7 +188,7 @@
               	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
               	cvDownloadButton.addEventListener("click", function () {
                 const rowData = options.data;
-                const cvUrl = rowData.cvId; // Assuming cvUrl is the property containing the CV file URL
+                const cvId = rowData.cvId; // Assuming cvUrl is the property containing the CV file URL
                 downloadCV(cvId);
               });
 
@@ -199,12 +198,12 @@
 				viewCVButton.classList.add("btn", "btn-secondary");
 				viewCVButton.addEventListener("click", function () {
 				  const rowData = options.data;
-				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-				  openCVViewPopup(cvUrl);
+				  const cvId = rowData.cvId; // Assuming cvUrl is the property containing the CV file URL
+				  openCVViewPopup(cvId);
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
 				});
-  
+d
 				container.appendChild(cvUploadButton);
 				container.appendChild(cvDownloadButton);
 				container.appendChild(viewCVButton);
