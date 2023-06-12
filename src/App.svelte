@@ -10,7 +10,7 @@
 	let file = null;
 	function handleUploadCV(candidateId) {
     uploadCandidateId = candidateId;
-    isPopupVisible = true;
+    isPopupVisible = false;
   }
 
   function handleFileUpload(event) {
