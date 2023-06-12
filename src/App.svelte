@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount, createEventDispatcher } from "svelte";
 	import "bootstrap/dist/css/bootstrap.min.css";
 	import DevExpress from "devextreme";
   
@@ -13,21 +13,24 @@
 	  // You can use the 'file' parameter to access the uploaded CV file
 	  // For example:
 	  console.log("Uploading CV:", file);
-	  
+  
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-	
+  
 	function handleSave() {
-    // Perform save logic
-    // In this case, we're updating the backend API URL in the handleFileUpload function
-    isPopupVisible = false;
-  }
-
-  function handleClose() {
-    // Perform close logic
-    isPopupVisible = false;
-  }
+	  // Perform save logic
+	  // In this case, we're updating the backend API URL in the handleFileUpload function
+	  isCVUploadPopupVisible = false;
+	}
+  
+	function handleClose() {
+	  // Perform close logic
+	  isCVUploadPopupVisible = false;
+	}
+  
+	const dispatch = createEventDispatcher();
+  
 	onMount(async () => {
 	  const response = await fetch(
 		"https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
@@ -111,7 +114,8 @@
 			  saveRowChanges: "Save",
 			  cancelRowChanges: "Cancel",
 			  deleteRow: "Delete",
-			  confirmDeleteMessage: "Are you sure you want to delete this record?",
+			  confirmDeleteMessage:
+				"Are you sure you want to delete this record?",
 			},
 		  },
 		  paging: {
@@ -141,9 +145,13 @@
 	<div class="popup-overlay">
 	  <div class="popup-content">
 		<h3>Upload CV</h3>
-		<input type="file" on:change="{(event) => uploadCV(event.target.files[0])}" accept=".pdf,.doc,.docx">
+		<input
+		  type="file"
+		  on:change="{(event) => uploadCV(event.target.files[0])}"
+		  accept=".pdf,.doc,.docx"
+		/>
 		<button on:click={handleSave} class="btn btn-primary">Save</button>
-        <button on:click={handleClose} class="btn btn-secondary">Close</button>
+		<button on:click={handleClose} class="btn btn-secondary">Close</button>
 	  </div>
 	</div>
   {/if}
