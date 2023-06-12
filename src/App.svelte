@@ -51,11 +51,29 @@
     );
 
     if (response.ok) {
+      const contentType = response.headers.get("content-type");
+      let fileExtension = "";
+
+      // Determine the file extension based on the content type
+      if (contentType.includes("application/pdf")) {
+        fileExtension = ".pdf";
+      } else if (contentType.includes("application/msword")) {
+        fileExtension = ".doc";
+      } else if (contentType.includes("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+        fileExtension = ".docx";
+      } else {
+        console.error("Unsupported file format.");
+        // Handle the error accordingly
+        return;
+      }
+
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
+
+      // Set the file name with the correct file extension
+      link.download = `${fileName}${fileExtension}`;
       link.href = url;
-      link.download = fileName;
       link.click();
       alert("CV downloaded successfully!");
     } else {
@@ -67,6 +85,7 @@
     // Handle the error accordingly
   }
 }
+
 
 	async function viewCV(cvUrl) {
   try {
