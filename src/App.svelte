@@ -81,11 +81,17 @@
     );
 
     if (response.ok) {
-      // Perform further actions with the CV data
-      const cvData = await response.json();
-      console.log("CV data:", cvData);
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const cvData = await response.json();
+        console.log("CV data:", cvData);
+        // Perform further actions with the CV data
+      } else {
+        console.error("CV view failed. Invalid response format.");
+        // Handle the error accordingly
+      }
     } else {
-      console.error("CV view failed.");
+      console.error("CV view failed. Status:", response.status);
       // Handle the error accordingly
     }
   } catch (error) {
@@ -93,6 +99,7 @@
     // Handle the error accordingly
   }
 }
+
 function openCVViewPopup(cvUrl) {
   // Perform any necessary actions before opening the popup
 
