@@ -6,7 +6,7 @@
 	let jsonData = [];
 	let gridData = [];
 	let uploadCandidateId = null;
-	let isPopupVisible = false;
+	let isPopupVisible = true;
 	function handleUploadCV(candidateId) {
     uploadCandidateId = candidateId;
     isPopupVisible = true;
