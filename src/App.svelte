@@ -44,17 +44,10 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-	async function downloadCV(file) {
+	async function downloadCV(cvUrl) {
   try {
-    const formData = new FormData();
-    formData.append("file", file);
-
     const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`,
-      {
-        method: "POST",
-        body: formData,
-      }
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=b12d3423-5541-49a6-b3a1-8ed273e50f53&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
     );
 
     if (response.ok) {
@@ -83,6 +76,7 @@
     // Handle the error accordingly
   }
 }
+
 
 
 	async function viewCV(cvUrl) {
@@ -193,8 +187,8 @@
               	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
               	cvDownloadButton.addEventListener("click", function () {
                 const rowData = options.data;
-                const cvUrl = rowData.file; // Assuming cvUrl is the property containing the CV file URL
-                downloadCV(file);
+                const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+                downloadCV(cvUrl);
               });
 
   
