@@ -91,6 +91,7 @@ async function viewCV(cvUrl) {
       if (contentType && contentType.includes("application/json")) {
         const cvData = await response.json();
         console.log("CV data:", cvData);
+		console.log(cvUrl);
         // Perform further actions with the CV data
       } else {
         console.error("CV view failed. Invalid response format.");
