@@ -16,7 +16,7 @@
 	  gridData = jsonData.map((item) => ({
 		id: item.id,
 		firstName: item.firstName,
-		surname:item.surname,
+		surname: item.surname,
 		email: item.email,
 		mobile: item.mobile,
 		cvUrl: item.cvUrl, // assuming cvUrl is the property containing the CV file URL
@@ -34,13 +34,6 @@
 			caption: "Actions",
 			width: 400,
 			cellTemplate: function (container, options) {
-			  const editButton = document.createElement("button");
-			  editButton.innerText = "Edit";
-			  editButton.classList.add("btn", "btn-primary", "mr-2");
-			  editButton.addEventListener("click", function () {
-				dataGrid.editRow(options.rowIndex);
-			  });
-	
 			  const cvUploadButton = document.createElement("button");
 			  cvUploadButton.innerText = "CV Upload";
 			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
@@ -68,8 +61,6 @@
 				console.log("View CV clicked for row:", rowData);
 			  });
 	
-			  container.appendChild(editButton);
-			  container.appendChild(deleteButton);
 			  container.appendChild(cvUploadButton);
 			  container.appendChild(cvDownloadButton);
 			  container.appendChild(viewCVButton);
