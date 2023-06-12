@@ -167,10 +167,10 @@
 		  dataSource: gridData,
 		  columns: [
 			{ dataField: "id", caption: "ID", width: 50 },
-			{ dataField: "firstName", caption: "First Name", width: 200 },
+			{ dataField: "firstName", caption: "firstName", width: 200 },
 			{ dataField: "surname", caption: "surname", width: 200 },
-			{ dataField: "email", caption: "Email", width: 200 },
-			{ dataField: "mobile", caption: "Mobile", width: 150 },
+			{ dataField: "email", caption: "email", width: 200 },
+			{ dataField: "mobile", caption: "mobile", width: 150 },
 			{
 			  caption: "Actions",
 			  width: 400,
