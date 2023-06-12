@@ -41,13 +41,6 @@
 				dataGrid.editRow(options.rowIndex);
 			  });
 	
-			  const deleteButton = document.createElement("button");
-			  deleteButton.innerText = "Delete";
-			  deleteButton.classList.add("btn", "btn-danger");
-			  deleteButton.addEventListener("click", function () {
-				dataGrid.deleteRow(options.rowIndex);
-			  });
-	
 			  const cvUploadButton = document.createElement("button");
 			  cvUploadButton.innerText = "CV Upload";
 			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
