@@ -189,8 +189,8 @@
               	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
               	cvDownloadButton.addEventListener("click", function () {
                 const rowData = options.data;
-                const cvUrl = rowData.cvid; // Assuming cvUrl is the property containing the CV file URL
-                downloadCV(cvid);
+                const cvUrl = rowData.cvId; // Assuming cvUrl is the property containing the CV file URL
+                downloadCV(cvId);
               });
 
   
