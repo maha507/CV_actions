@@ -7,6 +7,7 @@
 	let gridData = [];
 	let uploadCandidateId = null;
 	let isPopupVisible = true;
+	let file = null;
 	function handleUploadCV(candidateId) {
     uploadCandidateId = candidateId;
     isPopupVisible = true;
