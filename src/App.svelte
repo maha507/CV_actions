@@ -64,6 +64,7 @@
 		  link.href = url;
 		  link.download = fileName;
 		  link.click();
+		  alert("CV downloaded successfully!");
 		} else {
 		  console.error("CV download failed.");
 		  // Handle the error accordingly
