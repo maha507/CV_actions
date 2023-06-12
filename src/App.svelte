@@ -21,7 +21,7 @@
   
 		try {
 		  const response = await fetch(
-			`https://api.recruitly.io/api/cloudfile/download?cloudFileId=b12d3423-5541-49a6-b3a1-8ed273e50f53&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`,
+			`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`,
 			{
 			  method: "POST",
 			  body: formData,
@@ -47,7 +47,7 @@
 	async function downloadCV(cvUrl) {
   try {
     const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvUrl}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=b12d3423-5541-49a6-b3a1-8ed273e50f53&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
     );
 
     if (response.ok) {
