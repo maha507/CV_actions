@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import "bootstrap/dist/css/bootstrap.min.css";
 	import DevExpress from "devextreme";
-	import UploadCV from "./UploadCV.svelte";
+	import CVupload from "./CVupload.svelte";
 	let jsonData = [];
 	let gridData = [];
 	let uploadCandidateId = null;
