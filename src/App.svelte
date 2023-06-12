@@ -44,10 +44,17 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-	async function downloadCV(cvUrl) {
+	async function downloadCV(file) {
   try {
+    const formData = new FormData();
+    formData.append("file", file);
+
     const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvUrl}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+      `https://api.recruitly.io/api/cloudfile/download?apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`,
+      {
+        method: "POST",
+        body: formData,
+      }
     );
 
     if (response.ok) {
@@ -76,6 +83,7 @@
     // Handle the error accordingly
   }
 }
+
 
 	async function viewCV(cvUrl) {
 	  try {
@@ -185,8 +193,8 @@
               	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
               	cvDownloadButton.addEventListener("click", function () {
                 const rowData = options.data;
-                const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-                downloadCV(cvUrl);
+                const cvUrl = rowData.file; // Assuming cvUrl is the property containing the CV file URL
+                downloadCV(file);
               });
 
   
@@ -195,7 +203,7 @@
 				viewCVButton.classList.add("btn", "btn-secondary");
 				viewCVButton.addEventListener("click", function () {
 				  const rowData = options.data;
-				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+				  const cvUrl = rowData.file; // Assuming cvUrl is the property containing the CV file URL
 				  openCVViewPopup(cvUrl);
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
