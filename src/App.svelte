@@ -96,15 +96,34 @@ async function viewCV(cvUrl) {
 }
 
   
-	function openCVViewPopup(cvUrl) {
-	  // Perform any necessary actions before opening the popup
-  
-	  // Set the visibility of the CV view popup to true
-	  isCVViewPopupVisible = true;
-  
-	  // Fetch the CV data and perform further actions
-	  viewCV(cvUrl);
-	}
+async function viewCV(cvUrl) {
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
+
+    if (response.ok) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const cvData = await response.json();
+        console.log("CV data:", cvData);
+
+        // Update the cvContent variable with the retrieved CV data
+        cvContent = cvData.content;
+      } else {
+        console.error("CV view failed. Invalid response format.");
+        // Handle the error accordingly
+      }
+    } else {
+      console.error("CV view failed. Status:", response.status);
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV view error:", error);
+    // Handle the error accordingly
+  }
+}
+
   
 	function handleSave() {
 	  // Perform save logic
@@ -267,7 +286,7 @@ async function viewCV(cvUrl) {
 	<div class="popup-content">
 	  <h3>View CV</h3>
 	  <!-- Display the CV content here -->
-	  <p>CV content goes here...</p>
+	  <p>{cvContent}</p>
 	  <button on:click={handleClose} class="btn btn-secondary">close</button>
 	</div>
   </div>
