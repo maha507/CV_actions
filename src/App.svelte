@@ -8,6 +8,7 @@
 	let isCVUploadPopupVisible = false;
 	let selectedRowData = null;
 	let isCVViewPopupVisible = false;
+	let selectedCVId = null; // Add a variable to store the selected CV identifier
   
 	async function uploadCV(file) {
 	  // Perform further actions with the uploaded file
@@ -44,46 +45,44 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-
-	async function downloadCV(cvid) {
-  try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvid}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
-    );
-
-    if (response.ok) {
-      // Extract the file name from the response headers
-      const contentDisposition = response.headers.get("content-disposition");
-      const fileName = contentDisposition
-        ? contentDisposition.split("filename=")[1]
-        : "CV_File";
-
-      // Create a temporary download link and trigger the download
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-      link.click();
-
-      // Show success message
-      alert("CV downloaded successfully!");
-    } else {
-      console.error("CV download failed.");
-      // Handle the error accordingly
-    }
-  } catch (error) {
-    console.error("CV download error:", error);
-    // Handle the error accordingly
-  }
-}
-
-
   
-	async function viewCV(cvid) {
+	async function downloadCV(cvId) {
 	  try {
 		const response = await fetch(
-		  `https://api.recruitly.io/api/candidatecv/${cvid}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+		  `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvId}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+		);
+  
+		if (response.ok) {
+		  // Extract the file name from the response headers
+		  const contentDisposition = response.headers.get("content-disposition");
+		  const fileName = contentDisposition
+			? contentDisposition.split("filename=")[1]
+			: "CV_File";
+  
+		  // Create a temporary download link and trigger the download
+		  const blob = await response.blob();
+		  const url = URL.createObjectURL(blob);
+		  const link = document.createElement("a");
+		  link.href = url;
+		  link.download = fileName;
+		  link.click();
+  
+		  // Show success message
+		  alert("CV downloaded successfully!");
+		} else {
+		  console.error("CV download failed.");
+		  // Handle the error accordingly
+		}
+	  } catch (error) {
+		console.error("CV download error:", error);
+		// Handle the error accordingly
+	  }
+	}
+  
+	async function viewCV(cvId) {
+	  try {
+		const response = await fetch(
+		  `https://api.recruitly.io/api/candidatecv/${cvId}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
 		);
   
 		if (response.ok) {
@@ -106,14 +105,14 @@
 	  }
 	}
   
-	function openCVViewPopup(cvUrl) {
+	function openCVViewPopup(cvId) {
 	  // Perform any necessary actions before opening the popup
   
 	  // Set the visibility of the CV view popup to true
 	  isCVViewPopupVisible = true;
   
 	  // Fetch the CV data and perform further actions
-	  viewCV(cvUrl);
+	  viewCV(cvId);
 	}
   
 	function handleSave() {
@@ -131,14 +130,6 @@
   
 	  // Close the CV upload popup or CV view popup
 	  isCVUploadPopupVisible = false;
-	  isCVViewPopupVisible = false;
-	}
-	function handleclose() {
-	  // Perform close logic
-	  console.log("Close clicked");
-  
-	  // Close the CV upload popup or CV view popup
-	  
 	  isCVViewPopupVisible = false;
 	}
   
@@ -167,7 +158,7 @@
 		  columns: [
 			{ dataField: "id", caption: "ID", width: 50 },
 			{ dataField: "firstName", caption: "First Name", width: 200 },
-			{ dataField: "surname", caption: "surname", width: 200 },
+			{ dataField: "surname", caption: "Surname", width: 200 },
 			{ dataField: "email", caption: "Email", width: 200 },
 			{ dataField: "mobile", caption: "Mobile", width: 150 },
 			{
@@ -184,22 +175,21 @@
 				});
   
 				const cvDownloadButton = document.createElement("button");
-              	cvDownloadButton.innerText = "CV Download";
-              	cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
-              	cvDownloadButton.addEventListener("click", function () {
-                const rowData = options.data;
-                
-                downloadCV(cvid);
-              });
-
+				cvDownloadButton.innerText = "CV Download";
+				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
+				cvDownloadButton.addEventListener("click", function () {
+				  const rowData = options.data;
+				  const cvId = rowData.cvUrl; // Assuming cvUrl contains the CV identifier
+				  downloadCV(cvId);
+				});
   
 				const viewCVButton = document.createElement("button");
 				viewCVButton.innerText = "View CV";
 				viewCVButton.classList.add("btn", "btn-secondary");
 				viewCVButton.addEventListener("click", function () {
 				  const rowData = options.data;
-				  
-				  openCVViewPopup(cvid);
+				  const cvId = rowData.cvUrl; // Assuming cvUrl contains the CV identifier
+				  openCVViewPopup(cvId);
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
 				});
@@ -253,52 +243,52 @@
 		}
 	  );
 	});
-  </script>
+	</script>
   
-  <div id="dataGrid"></div>
+	<div id="dataGrid"></div>
   
-  {#if isCVUploadPopupVisible}
-  <div class="popup-overlay">
-	<div class="popup-content">
-	  <h3>Upload CV</h3>
-	  <input
-		type="file"
-		on:change="{(event) => uploadCV(event.target.files[0])}"
-		accept=".pdf,.doc,.docx"
-	  />
-	  <button on:click={handleSave} class="btn btn-primary">Save</button>
-	  <button on:click={handleClose} class="btn btn-secondary">Close</button>
+	{#if isCVUploadPopupVisible}
+	<div class="popup-overlay">
+	  <div class="popup-content">
+		<h3>Upload CV</h3>
+		<input
+		  type="file"
+		  on:change="{(event) => uploadCV(event.target.files[0])}"
+		  accept=".pdf,.doc,.docx"
+		/>
+		<button on:click={handleSave} class="btn btn-primary">Save</button>
+		<button on:click={handleClose} class="btn btn-secondary">Close</button>
+	  </div>
 	</div>
-  </div>
-  {/if}
-  {#if isCVViewPopupVisible}
-  <!-- CV View Popup -->
-  <div class="popup-overlay">
-	<div class="popup-content">
-	  <h3>View CV</h3>
-	  <!-- Display the CV content here -->
-	  <p>CV content goes here...</p>
-	  <button on:click={handleClose} class="btn btn-secondary">close</button>
+	{/if}
+	{#if isCVViewPopupVisible}
+	<!-- CV View Popup -->
+	<div class="popup-overlay">
+	  <div class="popup-content">
+		<h3>View CV</h3>
+		<!-- Display the CV content here -->
+		<p>CV content goes here...</p>
+		<button on:click={handleClose} class="btn btn-secondary">Close</button>
+	  </div>
 	</div>
-  </div>
-  {/if}
-  <style>
-  .popup-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }
+	{/if}
+	<style>
+	.popup-overlay {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
   
-  .popup-content {
-	background-color: white;
-	padding: 20px;
-	border-radius: 4px;
-  }
-  </style>
+	.popup-content {
+	  background-color: white;
+	  padding: 20px;
+	  border-radius: 4px;
+	}
+	</style>
   
