@@ -176,7 +176,7 @@ function openCVViewPopup(cvUrl) {
 				viewCVButton.addEventListener("click", function () {
 				  const rowData = options.data;
 				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
-  					viewCV(cvUrl);
+				  openCVViewPopup(cvUrl);
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
 				});
