@@ -74,7 +74,26 @@
 		// Handle the error accordingly
 	  }
 	}
-	
+	async function viewCV(cvUrl) {
+  try {
+    const response = await fetch(
+      `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
+    );
+
+    if (response.ok) {
+      // Perform further actions with the CV data
+      const cvData = await response.json();
+      console.log("CV data:", cvData);
+    } else {
+      console.error("CV view failed.");
+      // Handle the error accordingly
+    }
+  } catch (error) {
+    console.error("CV view error:", error);
+    // Handle the error accordingly
+  }
+}
+
 	function handleSave() {
 	  // Perform save logic
 	  // In this case, we're updating the backend API URL in the handleSave function
@@ -147,6 +166,8 @@
 				viewCVButton.classList.add("btn", "btn-secondary");
 				viewCVButton.addEventListener("click", function () {
 				  const rowData = options.data;
+				  const cvUrl = rowData.cvUrl; // Assuming cvUrl is the property containing the CV file URL
+  					viewCV(cvUrl);
 				  // Implement view CV logic here
 				  console.log("View CV clicked for row:", rowData);
 				});
