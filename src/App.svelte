@@ -5,49 +5,8 @@
 	
 	let jsonData = [];
 	let gridData = [];
-	let uploadCandidateId = null;
-	let isPopupVisible = true;
-	let file = null;
-	function handleUploadCV(candidateId) {
-    uploadCandidateId = candidateId;
-    isPopupVisible = false;
-  }
-
-  function handleFileUpload(event) {
-    file = event.target.files[0];
-    // Perform further actions with the uploaded file
-
-    // Example: Update the backend API URL with the file upload
-    const formData = new FormData();
-    formData.append("file", file);
-
-    fetch(`https://api.recruitly.io/api/candidatecv/upload?apiKey=TEST1236C4CF23E6921C41429A6E1D546AC9535E&candidateId=${uploadCandidateId}`, {
-      method: "POST",
-      body: formData
-    })
-      .then(response => {
-        // Handle the response accordingly
-        if (response.ok) {
-          console.log("CV uploaded successfully!");
-        } else {
-          console.error("CV upload failed.");
-        }
-      })
-      .catch(error => {
-        console.error("CV upload error:", error);
-      });
-  }
-
-  function handleSave() {
-    // Perform save logic
-    // In this case, we're updating the backend API URL in the handleFileUpload function
-    isPopupVisible = false;
-  }
-
-  function handleClose() {
-    // Perform close logic
-    isPopupVisible = false;
-  }
+	
+	
   
 	onMount(async () => {
 	  const response = await fetch(
@@ -152,12 +111,6 @@
 	  );
 	});
   </script>
-  <CVupload
-  {isPopupVisible}
-  {handleFileUpload}
-  {uploadCandidateId}
-  {handleSave}
-  {handleClose}
-  />
+  
   <div id="dataGrid"></div>
   
