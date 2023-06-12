@@ -46,34 +46,14 @@
 	
 	async function downloadCV(file, fileName) {
   try {
-    const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${file}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
-    );
+    const response = await fetch(file);
 
     if (response.ok) {
-      const contentType = response.headers.get("content-type");
-      let fileExtension = "";
-
-      // Determine the file extension based on the content type
-      if (contentType.includes("application/pdf")) {
-        fileExtension = ".pdf";
-      } else if (contentType.includes("application/msword")) {
-        fileExtension = ".doc";
-      } else if (contentType.includes("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-        fileExtension = ".docx";
-      } else {
-        console.error("Unsupported file format.");
-        // Handle the error accordingly
-        return;
-      }
-
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-
-      // Set the file name with the correct file extension
-      link.download = `${fileName}${fileExtension}`;
-      link.href = file;
+      link.href = url;
+      link.download = fileName;
       link.click();
       alert("CV downloaded successfully!");
     } else {
