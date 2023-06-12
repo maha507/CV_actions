@@ -44,7 +44,6 @@
 	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
-
 	async function downloadCV(cvUrl) {
   try {
     const response = await fetch(
@@ -59,7 +58,7 @@
         : "CV_File";
 
       // Create a temporary download link and trigger the download
-      const blob = await response.blob();
+      const blob = new Blob([""], { type: "application/octet-stream" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -77,7 +76,6 @@
     // Handle the error accordingly
   }
 }
-
 
   
 	async function viewCV(cvUrl) {
