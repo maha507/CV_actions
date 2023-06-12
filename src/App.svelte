@@ -77,11 +77,10 @@
     // Handle the error accordingly
   }
 }
-
-
-  
 async function viewCV(cvUrl) {
   try {
+    let cvContent; // Declare cvContent variable
+
     const response = await fetch(
       `https://api.recruitly.io/api/candidatecv/${cvUrl}?apiKey=TEST27306FA00E70A0F94569923CD689CA9BE6CA`
     );
@@ -107,6 +106,10 @@ async function viewCV(cvUrl) {
     // Handle the error accordingly
   }
 }
+
+
+  
+
 
 	function openCVViewPopup(cvUrl) {
 	  // Perform any necessary actions before opening the popup
