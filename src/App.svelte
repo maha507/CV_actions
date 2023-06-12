@@ -19,100 +19,110 @@
 		surname: item.surname,
 		email: item.email,
 		mobile: item.mobile,
+		cvUrl: item.cvUrl, // assuming cvUrl is the property containing the CV file URL
 	  }));
   
-	  const dataGrid = new DevExpress.ui.dxDataGrid(
-		document.getElementById("dataGrid"),
-		{
-		  dataSource: gridData,
-		  columns: [
-			{ dataField: "id", caption: "ID", width: 50 },
-			{ dataField: "firstName", caption: "First Name", width: 200 },
-			{ dataField: "surname", caption: "Surname", width: 200 },
-			{ dataField: "email", caption: "Email", width: 200 },
-			{ dataField: "mobile", caption: "Mobile", width: 150 },
-			// Define other columns as needed
-			{
-			  caption: "Actions",
-			  width: 200,
-			  cellTemplate: function (container, options) {
-				const btnUpload = document.createElement("button");
-				btnUpload.textContent = "CV Upload";
-				btnUpload.className = "btn btn-primary btn-sm";
-				btnUpload.addEventListener("click", function () {
-				  // Implement CV Upload functionality
-				  const candidateId = options.data.id;
-				  // Implement CV Upload logic here
-				  console.log("CV Upload for candidate ID:", candidateId);
-				});
-				container.appendChild(btnUpload);
+	  const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
+		dataSource: gridData,
+		columns: [
+		  { dataField: "id", caption: "ID", width: 50 },
+		  { dataField: "firstName", caption: "firstName", width: 200 },
+		  { dataField: "surname", caption: "surname", width: 200 },
+		  { dataField: "email", caption: "Email", width: 200 },
+		  { dataField: "mobile", caption: "mobile", width: 150 },
+		  {
+			caption: "Actions",
+			width: 200,
+			cellTemplate: function (container, options) {
+			  const editButton = document.createElement("button");
+			  editButton.innerText = "Edit";
+			  editButton.classList.add("btn", "btn-primary", "mr-2");
+			  editButton.addEventListener("click", function () {
+				dataGrid.editRow(options.rowIndex);
+			  });
   
-				const btnDownload = document.createElement("button");
-				btnDownload.textContent = "CV Download";
-				btnDownload.className = "btn btn-success btn-sm";
-				btnDownload.addEventListener("click", function () {
-				  // Implement CV Download functionality
-				  const candidateId = options.data.id;
-				  // Implement CV Download logic here
-				  console.log("CV Download for candidate ID:", candidateId);
-				});
-				container.appendChild(btnDownload);
+			  const deleteButton = document.createElement("button");
+			  deleteButton.innerText = "Delete";
+			  deleteButton.classList.add("btn", "btn-danger");
+			  deleteButton.addEventListener("click", function () {
+				dataGrid.deleteRow(options.rowIndex);
+			  });
   
-				const btnView = document.createElement("button");
-				btnView.textContent = "View CV";
-				btnView.className = "btn btn-info btn-sm";
-				btnView.addEventListener("click", function () {
-				  // Implement View CV functionality
-				  const candidateId = options.data.id;
-				  // Implement View CV logic here
-				  console.log("View CV for candidate ID:", candidateId);
-				});
-				container.appendChild(btnView);
-			  },
-			},
-		  ],
-		  showBorders: true,
-		  filterRow: {
-			visible: true,
-		  },
-		  editing: {
-			allowDeleting: true,
-			allowAdding: true,
-			allowUpdating: true,
-			mode: "popup",
-			form: {
-			  labelLocation: "top",
-			},
-			popup: {
-			  showTitle: true,
-			  title: "Row in the editing state",
-			},
-			texts: {
-			  saveRowChanges: "Save",
-			  cancelRowChanges: "Cancel",
-			  deleteRow: "Delete",
-			  confirmDeleteMessage:
-				"Are you sure you want to delete this record?",
+			  const cvUploadButton = document.createElement("button");
+			  cvUploadButton.innerText = "CV Upload";
+			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+			  cvUploadButton.addEventListener("click", function () {
+				// Implement CV upload logic here
+				const rowData = options.data;
+				console.log("CV Upload clicked for row:", rowData);
+			  });
+  
+			  const cvDownloadButton = document.createElement("button");
+			  cvDownloadButton.innerText = "CV Download";
+			  cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
+			  cvDownloadButton.addEventListener("click", function () {
+				// Implement CV download logic here
+				const rowData = options.data;
+				console.log("CV Download clicked for row:", rowData);
+			  });
+  
+			  const viewCVButton = document.createElement("button");
+			  viewCVButton.innerText = "View CV";
+			  viewCVButton.classList.add("btn", "btn-secondary");
+			  viewCVButton.addEventListener("click", function () {
+				// Implement view CV logic here
+				const rowData = options.data;
+				console.log("View CV clicked for row:", rowData);
+			  });
+  
+			  container.appendChild(editButton);
+			  container.appendChild(deleteButton);
+			  container.appendChild(cvUploadButton);
+			  container.appendChild(cvDownloadButton);
+			  container.appendChild(viewCVButton);
 			},
 		  },
-		  paging: {
-			pageSize: 20,
+		],
+		showBorders: true,
+		filterRow: {
+		  visible: true,
+		},
+		editing: {
+		  allowDeleting: true,
+		  allowAdding: true,
+		  allowUpdating: true,
+		  mode: "popup",
+		  form: {
+			labelLocation: "top",
 		  },
-		  onRowInserting: async (e) => {
-			// ...
+		  popup: {
+			showTitle: true,
+			title: "Row in the editing state",
 		  },
-		  onRowUpdating: async (e) => {
-			// ...
+		  texts: {
+			saveRowChanges: "Save",
+			cancelRowChanges: "Cancel",
+			deleteRow: "Delete",
+			confirmDeleteMessage: "Are you sure you want to delete this record?",
 		  },
-		  onRowRemoving: async (e) => {
-			// ...
-		  },
-		  onInitialized: () => {
-			// Function called when the grid is initialized
-			// ...
-		  },
-		}
-	  );
+		},
+		paging: {
+		  pageSize: 20,
+		},
+		onRowInserting: async (e) => {
+		  // ...
+		},
+		onRowUpdating: async (e) => {
+		  // ...
+		},
+		onRowRemoving: async (e) => {
+		  // ...
+		},
+		onInitialized: () => {
+		  // Function called when the grid is initialized
+		  // ...
+		},
+	  });
 	});
   </script>
   
