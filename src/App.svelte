@@ -47,7 +47,7 @@
 	async function downloadCV(cvUrl) {
   try {
     const response = await fetch(
-      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=b12d3423-5541-49a6-b3a1-8ed273e50f53&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
+      `https://api.recruitly.io/api/cloudfile/download?cloudFileId=${cvUrl}&apiKey=TEST45684CB2A93F41FC40869DC739BD4D126D77`
     );
 
     if (response.ok) {
@@ -55,7 +55,7 @@
       const contentDisposition = response.headers.get("content-disposition");
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]
-        : "CV_File";
+        : "CV_File.pdf"; // Specify the filename with a .pdf extension
 
       // Create a temporary download link and trigger the download
       const blob = await response.blob();
@@ -76,7 +76,6 @@
     // Handle the error accordingly
   }
 }
-
 
 
 	async function viewCV(cvUrl) {
