@@ -137,6 +137,12 @@
 	  );
 	});
   </script>
-  
+  <UploadCV
+  {isPopupVisible}
+  {handleFileUpload}
+  {uploadCandidateId}
+  {handleSave}
+  {handleClose}
+  />
   <div id="dataGrid"></div>
   
