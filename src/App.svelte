@@ -6,15 +6,13 @@
 	let jsonData = [];
 	let gridData = [];
 	
-	
-  
 	onMount(async () => {
 	  const response = await fetch(
 		"https://api.recruitly.io/api/candidate?apiKey=TEST9349C0221517DA4942E39B5DF18C68CDA154"
 	  );
 	  const responseData = await response.json();
 	  jsonData = responseData.data;
-  
+	
 	  gridData = jsonData.map((item) => ({
 		id: item.id,
 		firstName: item.firstName,
@@ -23,92 +21,92 @@
 		mobile: item.mobile,
 		cvUrl: item.cvUrl, // assuming cvUrl is the property containing the CV file URL
 	  }));
-  
-	  const dataGrid = new DevExpress.ui.dxDataGrid(
-		document.getElementById("dataGrid"),
-		{
-		  dataSource: gridData,
-		  columns: [
-			{ dataField: "id", caption: "ID", width: 50 },
-			{ dataField: "firstName", caption: "First Name", width: 200 },
-			{ dataField: "surname", caption: "Surname", width: 200 },
-			{ dataField: "email", caption: "Email", width: 200 },
-			{ dataField: "mobile", caption: "Mobile", width: 150 },
-			{
-			  caption: "CV Actions",
-			  width: 400,
-			  cellTemplate: function (container, options) {
-				const cvUploadButton = document.createElement("input");
-				cvUploadButton.type = "file";
-				cvUploadButton.accept = "application/pdf"; // specify accepted file type if required
-				cvUploadButton.addEventListener("change", handleFileUpload);
-  
-				const cvDownloadButton = document.createElement("button");
-				cvDownloadButton.innerText = "CV Download";
-				cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
-				cvDownloadButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  // Implement CV download logic here
-				  console.log("CV Download clicked for row:", rowData);
-				});
-  
-				const viewCVButton = document.createElement("button");
-				viewCVButton.innerText = "View CV";
-				viewCVButton.classList.add("btn", "btn-secondary");
-				viewCVButton.addEventListener("click", function () {
-				  const rowData = options.data;
-				  // Implement view CV logic here
-				  console.log("View CV clicked for row:", rowData);
-				});
-  
-				container.appendChild(cvUploadButton);
-				container.appendChild(cvDownloadButton);
-				container.appendChild(viewCVButton);
-			  },
-			},
-		  ],
-		  showBorders: true,
-		  filterRow: {
-			visible: true,
-		  },
-		  editing: {
-			allowDeleting: true,
-			allowAdding: true,
-			allowUpdating: true,
-			mode: "popup",
-			form: {
-			  labelLocation: "top",
-			},
-			popup: {
-			  showTitle: true,
-			  title: "Row in the editing state",
-			},
-			texts: {
-			  saveRowChanges: "Save",
-			  cancelRowChanges: "Cancel",
-			  deleteRow: "Delete",
-			  confirmDeleteMessage:
-				"Are you sure you want to delete this record?",
+	
+	  const dataGrid = new DevExpress.ui.dxDataGrid(document.getElementById("dataGrid"), {
+		dataSource: gridData,
+		columns: [
+		  { dataField: "id", caption: "ID", width: 50 },
+		  { dataField: "firstName", caption: "First Name", width: 200 },
+		  { dataField: "surname", caption: "Surname", width: 200 },
+		  { dataField: "email", caption: "Email", width: 200 },
+		  { dataField: "mobile", caption: "Mobile", width: 150 },
+		  {
+			caption: "Actions",
+			width: 400,
+			cellTemplate: function (container, options) {
+			  const cvUploadButton = document.createElement("button");
+			  cvUploadButton.innerText = "CV Upload";
+			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
+			  cvUploadButton.addEventListener("click", function () {
+				const rowData = options.data;
+				// Implement CV upload logic here
+				console.log("CV Upload clicked for row:", rowData);
+			  });
+	
+			  const cvDownloadButton = document.createElement("button");
+			  cvDownloadButton.innerText = "CV Download";
+			  cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
+			  cvDownloadButton.addEventListener("click", function () {
+				const rowData = options.data;
+				// Implement CV download logic here
+				console.log("CV Download clicked for row:", rowData);
+			  });
+	
+			  const viewCVButton = document.createElement("button");
+			  viewCVButton.innerText = "View CV";
+			  viewCVButton.classList.add("btn", "btn-secondary");
+			  viewCVButton.addEventListener("click", function () {
+				const rowData = options.data;
+				// Implement view CV logic here
+				console.log("View CV clicked for row:", rowData);
+			  });
+	
+			  container.appendChild(cvUploadButton);
+			  container.appendChild(cvDownloadButton);
+			  container.appendChild(viewCVButton);
 			},
 		  },
-		  paging: {
-			pageSize: 20,
+		],
+		showBorders: true,
+		filterRow: {
+		  visible: true,
+		},
+		editing: {
+		  allowDeleting: true,
+		  allowAdding: true,
+		  allowUpdating: true,
+		  mode: "popup",
+		  form: {
+			labelLocation: "top",
 		  },
-		  onRowInserting: async (e) => {
-			// ...
+		  popup: {
+			showTitle: true,
+			title: "Row in the editing state",
 		  },
-		  onRowUpdating: async (e) => {
-			// ...
+		  texts: {
+			saveRowChanges: "Save",
+			cancelRowChanges: "Cancel",
+			deleteRow: "Delete",
+			confirmDeleteMessage: "Are you sure you want to delete this record?",
 		  },
-		  onRowRemoving: async (e) => {
-			// ...
-		  },
-		  onInitialized: () => {
-			// Function called when the grid is initialized
-			// ...
-		  },
-		}
-	  );
+		},
+		paging: {
+		  pageSize: 20,
+		},
+		onRowInserting: async (e) => {
+		  // ...
+		},
+		onRowUpdating: async (e) => {
+		  // ...
+		},
+		onRowRemoving: async (e) => {
+		  // ...
+		},
+		onInitialized: () => {
+		  // Function called when the grid is initialized
+		  // ...
+		},
+	  });
 	});
   </script>
   
