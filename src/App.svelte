@@ -20,12 +20,18 @@
   
 	function handleSave() {
 	  // Perform save logic
-	  // In this case, we're updating the backend API URL in the handleFileUpload function
+	  // In this case, we're updating the backend API URL in the handleSave function
+	  console.log("Save clicked");
+	  
+	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
   
 	function handleClose() {
 	  // Perform close logic
+	  console.log("Close clicked");
+	  
+	  // Close the CV upload popup
 	  isCVUploadPopupVisible = false;
 	}
   
@@ -117,6 +123,7 @@
 			  confirmDeleteMessage:
 				"Are you sure you want to delete this record?",
 			},
+			onSaveRowChanges: handleSave, // Bind handleSave function to the saveRowChanges event
 		  },
 		  paging: {
 			pageSize: 20,
