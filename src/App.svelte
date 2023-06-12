@@ -1,3 +1,4 @@
+
 <script>
 	import { onMount } from "svelte";
 	import "bootstrap/dist/css/bootstrap.min.css";
@@ -52,8 +53,8 @@
 			  cvUploadButton.innerText = "CV Upload";
 			  cvUploadButton.classList.add("btn", "btn-success", "mr-2");
 			  cvUploadButton.addEventListener("click", function () {
-				// Implement CV upload logic here
 				const rowData = options.data;
+				// Implement CV upload logic here
 				console.log("CV Upload clicked for row:", rowData);
 			  });
   
@@ -61,8 +62,8 @@
 			  cvDownloadButton.innerText = "CV Download";
 			  cvDownloadButton.classList.add("btn", "btn-info", "mr-2");
 			  cvDownloadButton.addEventListener("click", function () {
-				// Implement CV download logic here
 				const rowData = options.data;
+				// Implement CV download logic here
 				console.log("CV Download clicked for row:", rowData);
 			  });
   
@@ -70,8 +71,8 @@
 			  viewCVButton.innerText = "View CV";
 			  viewCVButton.classList.add("btn", "btn-secondary");
 			  viewCVButton.addEventListener("click", function () {
-				// Implement view CV logic here
 				const rowData = options.data;
+				// Implement view CV logic here
 				console.log("View CV clicked for row:", rowData);
 			  });
   
